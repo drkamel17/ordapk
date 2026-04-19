@@ -212,28 +212,54 @@
 
     // Charger depuis l'API comme ord_type.js
     async function chargerDepuisAPI() {
+      // D'abord essayer localStorage
+      const local = localStorage.getItem('ordonnancesTypes');
+      if (local) {
+        try {
+          const data = JSON.parse(local);
+          if (Object.keys(data).length > 0) {
+            console.log('Chargé depuis localStorage:', Object.keys(data).length);
+            return data;
+          }
+        } catch (e) {}
+      }
+      
+      // Essayer l'API
       try {
         const response = await fetch('/api/save-supabase', {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' }
         });
         
-        if (!response.ok) {
-          throw new Error('Erreur HTTP: ' + response.status);
+        if (response.ok) {
+          const result = await response.json();
+          console.log('Result:', result);
+          
+          if (result.success && result.data) {
+            console.log('Succes:', Object.keys(result.data).length, 'ordonnances');
+            localStorage.setItem('ordonnancesTypes', JSON.stringify(result.data));
+            return result.data;
+          }
         }
-        
-        const result = await response.json();
-        console.log('Result:', result);
-        
-        if (result.success && result.data) {
-          console.log('Succes:', Object.keys(result.data).length, 'ordonnances');
-          return result.data;
-        }
-        return {};
       } catch (error) {
-        console.error('Erreur:', error);
-        return {};
+        console.log('API error:', error);
       }
+      
+      // Fallback: charger depuis fichier JSON local
+      try {
+        const response = await fetch('ordonnances-types.json');
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Chargé depuis fichier:', Object.keys(data).length);
+          localStorage.setItem('ordonnancesTypes', JSON.stringify(data));
+          return data;
+        }
+      } catch (e) {
+        console.log('Fallback error:', e);
+      }
+      
+      showToast('Mode hors-ligne');
+      return {};
     }
 
     function showToast(msg) {
@@ -291,20 +317,40 @@
       titre = decodeURIComponent(titre);
       const meds = ordonnances[titre] || [];
       
-      let text = `🏥 ${titre}\n\n${meds.length} médicament(s)\n\n`;
+      let html = `<div style="text-align:right;padding:10px;">
+        <button onclick="const el=document.getElementById('meds-detail');navigator.clipboard.writeText(el.textContent).then(()=>showToast('Copié!'))">📋 Copier</button>
+      </div>
+      <div id="meds-detail" style="background:white;color:#333;padding:15px;border-radius:10px;max-height:60vh;overflow-y:auto;font-size:14px;line-height:1.6;">
+        <h3 style="margin:0 0 10px 0;">🏥 ${titre}</h3>
+        <p style="color:#666;margin:0 0 15px 0;">${meds.length} médicament(s)</p>`;
+      
       meds.forEach((m, i) => {
-        const med = typeof m === 'object' ? m : { medicament: m, posologie: '', quantite: '' };
-        text += `${i+1}. ${med.medicament || med}`;
-        if (med.posologie) text += ` - ${med.posologie}`;
-        if (med.quantite) text += `\nQté: ${med.quantite}`;
-        text += `\n\n`;
+        const med = typeof m === 'object' ? m : { medicament: m };
+        const nom = med.medicament || med.nom || med.name || JSON.stringify(m);
+        const poso = med.posologie || '';
+        const qte = med.quantite || '';
+        
+        html += `<div style="border-bottom:1px solid #eee;padding:10px 0;">
+          <div style="font-weight:bold;">${i+1}. ${nom}</div>`;
+        if (poso) html += `<div style="color:#007bff;">${poso}</div>`;
+        if (qte) html += `<div style="color:#28a745;">Qté: ${qte}</div>`;
+        html += `</div>`;
       });
       
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => showToast('Copié!')).catch(() => alert(text));
-      } else {
-        alert(text);
-      }
+      html += `</div>`;
+      
+      const oldMsg = document.getElementById('message');
+      if (oldMsg) oldMsg.remove();
+      const msg = document.createElement('div');
+      msg.id = 'message';
+      msg.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:999;padding:20px;overflow-y:auto;';
+      msg.innerHTML = `<div style="background:#667eea;color:white;padding:15px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:18px;font-weight:bold;">${titre}</span>
+        <button onclick="this.closest('#message').remove()" style="background:none;border:none;color:white;font-size:24px;cursor:pointer;">✕</button>
+      </div>
+      ${html}`;
+      msg.onclick = function(e) { if (e.target === msg) msg.remove(); };
+      document.body.appendChild(msg);
     }
 
     function ajouter() {
