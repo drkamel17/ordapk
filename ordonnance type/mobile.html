@@ -270,12 +270,19 @@
         list.innerHTML = '<div class="empty">Aucune ordonnance</div>';
         return;
       }
-      list.innerHTML = keys.map(k => `
-        <div class="ord-item" onclick="voir('${encodeURIComponent(k)}')">
-          <h3>${k}</h3>
-          <p>${(ordonnances[k] || []).join(', ')}</p>
-        </div>
-      `).join('');
+      list.innerHTML = keys.map(k => {
+        const meds = ordonnances[k] || [];
+        const preview = meds.map(m => {
+          if (typeof m === 'object') return m.medicament || '...';
+          return m;
+        }).slice(0, 3).join(', ');
+        return `
+          <div class="ord-item" onclick="voir('${encodeURIComponent(k)}')">
+            <h3>${k}</h3>
+            <p>${preview}${meds.length > 3 ? '...' : ''} (${meds.length})</p>
+          </div>
+        `;
+      }).join('');
     }
 
     document.getElementById('search').addEventListener('input', e => afficher(e.target.value));
@@ -283,8 +290,15 @@
     function voir(titre) {
       titre = decodeURIComponent(titre);
       const meds = ordonnances[titre] || [];
-      let text = `🏥 ${titre}\n\n`;
-      meds.forEach((m, i) => text += `${i+1}. ${m}\n`);
+      
+      let text = `🏥 ${titre}\n\n${meds.length} médicament(s)\n\n`;
+      meds.forEach((m, i) => {
+        const med = typeof m === 'object' ? m : { medicament: m, posologie: '', quantite: '' };
+        text += `${i+1}. ${med.medicament || med}`;
+        if (med.posologie) text += ` - ${med.posologie}`;
+        if (med.quantite) text += `\nQté: ${med.quantite}`;
+        text += `\n\n`;
+      });
       
       if (navigator.clipboard) {
         navigator.clipboard.writeText(text).then(() => showToast('Copié!')).catch(() => alert(text));
