@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="theme-color" content="#2563eb">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -188,11 +188,20 @@
             font-weight: 500;
         }
 
-        @media (max-width: 600px) {
-            .container { padding: 20px; }
-            .header h1 { font-size: 1.8em; }
-            .buttons-grid { grid-template-columns: 1fr; }
+@media (max-width: 600px) {
+            .container { padding: 15px; }
+            .header h1 { font-size: 1.4em; }
+            .subtitle { font-size: 0.9em; }
+            .buttons-grid { grid-template-columns: 1fr; gap: 10px; }
+            .cta-button { padding: 12px; font-size: 0.9rem; }
+            .cta-button i { width: 35px; height: 35px; font-size: 1.1em; }
             .admin-section { flex-direction: column; }
+            .admin-btn { width: 100%; }
+        }
+        
+        @media (max-width: 400px) {
+            .header h1 { font-size: 1.1em; }
+            .cta-button span { font-size: 0.85rem; }
         }
     </style>
 </head>
