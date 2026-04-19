@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Solution Médicale Intégrée - Dr Daoudi</title>
-    <meta name="description" content="Plateforme complète pour la génération de certificats médicaux et ordonnances">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Dr Daoudi">
+    <title>C-A-T - Medical App</title>
+    <meta name="description" content="Scores Médicaux, Médicaments Dz, Ordonnances Types et Conduite à Tenir">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -196,23 +201,14 @@
 <div class="header" style="display: flex; align-items: center; justify-content: center; gap: 30px; flex-wrap: wrap;">
             <div style="text-align: center;">
                 <i class="fas fa-user-doctor"></i>
-                <h1>Solution Médicale Intégrée</h1>
-                <p class="subtitle">Espace professionnel dédié à la gestion documentaire et clinique du praticien.</p>
+                <h1>C-A-T - Medical App</h1>
+                <p class="subtitle">Scores Médicaux, Médicaments Dz, Ordonnances Types et Conduite à Tenir.</p>
             </div>
         </div>
         
 <div class="buttons-grid">
-            <a href="score/index.html" class="cta-button btn-score" target="_blank">
-                <i class="fas fa-calculator"></i>
-                <span>Scores Médicaux</span>
-            </a>
-            
-            <a href="medicamentdz/index.html" class="cta-button btn-med" target="_blank">
-                <i class="fas fa-pills"></i>
-                <span>Médicaments Dz</span>
-            </a>
-            
-<a href="ordonnance type/ord_type.html" class="cta-button btn-type" target="_blank" style="position: relative;">
+
+ <a href="https://shortlien.vercel.app/ordapk" class="cta-button btn-type" target="_blank" style="position: relative;">
                 <i class="fas fa-notes-medical"></i>
                 <span>Ordonnance Type</span>
                 <img src="qr-ord-type.png" 
@@ -225,6 +221,17 @@
                 <span>Conduite a Tenir</span>
             </a>
             
+            <a href="score/index.html" class="cta-button btn-score" target="_blank">
+                <i class="fas fa-calculator"></i>
+                <span>Scores Médicaux</span>
+            </a>
+            
+            <a href="medicamentdz/index.html" class="cta-button btn-med" target="_blank">
+                <i class="fas fa-pills"></i>
+                <span>Médicaments Dz</span>
+            </a>
+            
+           
             
         </div>
 
@@ -243,5 +250,12 @@
             Créé par Dr Daoudi | Application médicale professionnelle
         </p>
     </div>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then(reg => console.log('PWA installed:', reg.scope))
+    .catch(err => console.log('SW error:', err));
+}
+</script>
 </body>
 </html>
