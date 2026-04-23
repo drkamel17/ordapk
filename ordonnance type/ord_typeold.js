@@ -214,10 +214,7 @@ async function chargerOrdonnancesTypes() {
 // === Affichage ===
 function afficherOrdonnances(data) {
     const container = document.getElementById('liste-ordonnances');
-    // Trier par ordre alphabétique français (majuscule = minuscule)
-    const noms = Object.keys(data).sort((a, b) => 
-        a.toLowerCase().localeCompare(b.toLowerCase(), 'fr')
-    );
+    const noms = Object.keys(data).sort();
     
     if (noms.length === 0) {
         container.innerHTML = `

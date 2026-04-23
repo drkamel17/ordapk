@@ -310,10 +310,10 @@
 
     function afficher(filter) {
       const list = document.getElementById('list');
-      // Filtrer et trier par ordre alphabétique français (majuscule = minuscule)
+      // Filtrer et trier par ordre alphabétique
       const keys = Object.keys(ordonnances)
         .filter(k => k.toLowerCase().includes(filter.toLowerCase()))
-        .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase(), 'fr'));
+        .sort((a, b) => a.localeCompare(b, 'fr')); // Tri alphabétique français
       if (keys.length === 0) {
         list.innerHTML = '<div class="empty">Aucune ordonnance</div>';
         return;
