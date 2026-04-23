@@ -103,6 +103,28 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 100;
+    }
+    
+    /* Responsive FAB */
+    @media (max-width: 480px) {
+      .fab {
+        bottom: 80px;
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        right: 15px;
+      }
+    }
+    
+    @media (max-width: 360px) {
+      .fab {
+        bottom: 85px;
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+        right: 12px;
+      }
     }
     .bottom-nav {
       position: fixed;
@@ -177,16 +199,13 @@
     </div>
     <input type="search" class="search-box" id="search" placeholder="Rechercher...">
   </div>
-  <div class="toolbar">
-    <button onclick="exporter()">📥 Exporter</button>
-    <button onclick="importer()">📤 Importer</button>
-  </div>
+
   <div class="list-container" id="list"></div>
   <button class="fab" onclick="ajouter()">+</button>
   <div class="bottom-nav">
     <a href="../index.html"><i class="fas fa-home"></i>Accueil</a>
     <button onclick="charger()"><i class="fas fa-sync"></i>Actualiser</button>
-    <button onclick="exporter()"><i class="fas fa-download"></i>Exporter</button>
+    
   </div>
   <div class="toast" id="toast"></div>
 
