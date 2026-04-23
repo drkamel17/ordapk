@@ -92,39 +92,20 @@ function creerDatalistMedicaments() {
 // === Gestion des événements ===
 function initialiserEvenements() {
     // Boutons principaux
-    const btnEnregistrer = document.getElementById('btn-enregistrer');
-    if (btnEnregistrer) btnEnregistrer.addEventListener('click', enregistrerOrdonnance);
-    
-    const btnAnnuler = document.getElementById('btn-annuler');
-    if (btnAnnuler) btnAnnuler.addEventListener('click', annulerEdition);
-    
-    const btnAjouterMed = document.getElementById('btn-ajouter-medicament');
-    if (btnAjouterMed) btnAjouterMed.addEventListener('click', ajouterMedicamentForm);
-    
-    const btnExporter = document.getElementById('btn-exporter');
-    if (btnExporter) btnExporter.addEventListener('click', exporterOrdonnances);
-    
-    const btnImporter = document.getElementById('btn-importer');
-    if (btnImporter) btnImporter.addEventListener('click', () => document.getElementById('input-import').click());
-    
-    const btnFermer = document.getElementById('btn-fermer');
-    if (btnFermer) btnFermer.addEventListener('click', () => window.close());
-    
-    const btnActualiser = document.getElementById('btn-actualiser');
-    if (btnActualiser) btnActualiser.addEventListener('click', actualiserDepuisJSONBin);
-    
-    const btnTelecharger = document.getElementById('btn-telecharger');
-    if (btnTelecharger) btnTelecharger.addEventListener('click', telechargerFichierJSON);
+    document.getElementById('btn-enregistrer').addEventListener('click', enregistrerOrdonnance);
+    document.getElementById('btn-annuler').addEventListener('click', annulerEdition);
+    document.getElementById('btn-ajouter-medicament').addEventListener('click', ajouterMedicamentForm);
+    document.getElementById('btn-exporter').addEventListener('click', exporterOrdonnances);
+    document.getElementById('btn-importer').addEventListener('click', () => document.getElementById('input-import').click());
+    document.getElementById('btn-fermer').addEventListener('click', () => window.close());
+    document.getElementById('btn-actualiser').addEventListener('click', actualiserDepuisJSONBin);
+    document.getElementById('btn-telecharger').addEventListener('click', telechargerFichierJSON);
     
     // Import
-    const inputImport = document.getElementById('input-import');
-    if (inputImport) inputImport.addEventListener('change', importerOrdonnances);
+    document.getElementById('input-import').addEventListener('change', importerOrdonnances);
     
-    // Recherche - avec vérification de sécurité
-    const searchOrdonnances = document.getElementById('search-ordonnances');
-    if (searchOrdonnances) {
-        searchOrdonnances.addEventListener('input', filtrerOrdonnances);
-    }
+    // Recherche
+    document.getElementById('search-ordonnances').addEventListener('input', filtrerOrdonnances);
 }
 
 // === Chargement des données ===
