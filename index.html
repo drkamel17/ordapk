@@ -268,10 +268,8 @@
         </p>
     </div>
 <script>
-// Force update - add timestamp to bypass cache
-const swVersion = 'v5-' + Date.now();
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js?t=' + swVersion).then(reg => {
+  navigator.serviceWorker.register('/sw.js').then(reg => {
     console.log('SW registered:', reg.scope);
     if (reg.waiting) {
       reg.waiting.postMessage('SKIP_WAITING');
@@ -285,9 +283,6 @@ if ('serviceWorker' in navigator) {
       });
     });
   }).catch(err => console.log('SW error:', err));
-navigator.serviceWorker.addEventListener('controllerchange', () => {
-    window.location.reload();
-  });
 }
 </script>
 </body>
