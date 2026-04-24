@@ -269,9 +269,22 @@
     </div>
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js')
-    .then(reg => console.log('PWA installed:', reg.scope))
-    .catch(err => console.log('SW error:', err));
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    if (reg.waiting) {
+      reg.waiting.postMessage('SKIP_WAITING');
+    }
+    reg.addEventListener('updatefound', () => {
+      const newWorker = reg.installing;
+      newWorker.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          newWorker.postMessage('SKIP_WAITING');
+        }
+      });
+    });
+  }).catch(err => console.log('SW error:', err));
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    window.location.reload();
+  });
 }
 </script>
 </body>
