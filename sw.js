@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dr-daoudi-v3';
+const CACHE_NAME = 'dr-daoudi-v3.1';
 
 // فقط الملفات الثابتة (لا تضع index.html هنا)
 const STATIC_ASSETS = [
