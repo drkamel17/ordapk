@@ -102,6 +102,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "radiologie/**/*",
+      "use": "@vercel/static"
+    },
+    {
       "src": "templates/*.pdf",
       "use": "@vercel/static"
     },
@@ -168,6 +172,10 @@
       "dest": "/medicamentdz/$1"
     },
     {
+      "src": "/radiologie/(.*)",
+      "dest": "/radiologie/$1"
+    },
+    {
       "src": "/ordonnance%20type/(.*)",
       "dest": "/ordonnance%20type/$1"
     },
@@ -204,7 +212,11 @@
       "dest": "/api/recuperer_donnees.js"
     },
     {
-      "src": "(.*)",
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/(.*)",
       "dest": "/$1.html"
     }
   ],
